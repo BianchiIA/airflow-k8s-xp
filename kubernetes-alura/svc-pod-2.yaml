@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-pod-2
+spec:
+  type: ClusterIP
+  selector:
+    app: segundo-pod
+  ports:
+    - port: 9000       # Indica a entrada para esse container no pod
+      targetPort: 80   # Porta de entrega do container
+

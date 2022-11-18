@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels:
+    app: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: container-mongodb
+        image: mongo:5.0
+        ports:
+        - containerPort: 27017
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret     # Nome do secret de referencia
+              key: mongo-user        # match do valor definido do secret
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret     # Nome do secret de referencia
+              key: mongo-password
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service   # para dar match com o configmap
+spec:  
+  selector:
+    app: mongo          # para dar match com a label do deployment que estamos dando acesso.
+  ports:
+    - protocol: TCP
+      port: 27017       # Onde eu recebo a requisiçao
+      targetPort: 27017 # Para onde eu encaminho a requisição. Match com a port do container
