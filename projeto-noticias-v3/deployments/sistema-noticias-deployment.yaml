@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: portal-noticias-deployments
+  name: sistema-noticias-deployment
 spec:
-  replicas: 3
-  selector:     # Buscador dos pods a serem tutelados
+  replicas: 1
+  selector:
     matchLabels:
-      app: portal-noticias
+      app: sistema-noticias
   template:
     metadata:
       labels:
-        app: portal-noticias
+        app: sistema-noticias
     spec:
       containers:
-      - name: container-portal-noticias
-        image: aluracursos/portal-noticias:1
+      - name: cotainer-sistema-noticias
+        image: aluracursos/sistema-noticias:1
         resources:
           limits:
             memory: "128Mi"
@@ -23,6 +23,4 @@ spec:
         - containerPort: 80
         envFrom:
           - configMapRef:
-              name: configmap-portal-noticias
- 
-          
+              name: configmap-sistema-noticias

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployments
+  labels:
+    app: meunginx
+spec:  # do Deployments
+  replicas: 10
+  selector:
+    matchLabels:
+      app: meunginx #Significa que o Deployment vai procurar Pods com essa label
+  template:  # Do Deployment
+    metadata:
+      labels:
+        app: meunginx
+    spec:  # Do tamplate de Pods que serão levantados pelo deployment
+      containers:
+      - name: webserver
+        image: nginx:1.14.2
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - name: webports
+          containerPort: 80
