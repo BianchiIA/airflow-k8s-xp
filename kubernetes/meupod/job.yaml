@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: readpandas
+spec:
+  backoffLimit: 3            # Numero de vezes que pode dar erro até ser interrompido pelo k8s
+  activeDeadlineSeconds: 60  # tem até 60 segs para executar, senao timeout
+  template:
+    spec:
+      containers:
+      - name: readshow
+        image: gcr.io/lab-gke-370512/jobpandas
+        command: ["python",  "/run.py"]
+      restartPolicy: Never
